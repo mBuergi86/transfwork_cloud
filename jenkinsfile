@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/your-repo.git', credentialsId: 'your-credentials-id'
-                sh 'git checkout 1.0.0'
+                git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'your-credentials-id'
             }
         }
 
