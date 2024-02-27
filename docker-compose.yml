@@ -54,8 +54,6 @@ services:
     command: [nginx-debug, "-g", "daemon off;"]
     depends_on:
       - frontend
-      - backend
-      - mongodb
     networks:
       - todoapp
 

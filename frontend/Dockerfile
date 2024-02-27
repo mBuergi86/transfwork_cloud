@@ -16,3 +16,9 @@ COPY --from=build /app/package-lock.json .
 RUN npm ci --omit dev
 EXPOSE 3000
 CMD ["node", "."]
+
+# Path: Nginx
+FROM nginx:latest
+EXPOSE 80
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/build /usr/share/nginx/html
