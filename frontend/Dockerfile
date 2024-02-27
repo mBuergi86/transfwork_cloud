@@ -5,8 +5,8 @@ WORKDIR /app
 COPY ./package*.json ./
 RUN npm ci
 COPY . .
-RUN chmod -R 777 .
 RUN npm run build
+RUN chmod -R 777 .
 
 # Stage 2: Production
 FROM node:lts-alpine as production
@@ -18,7 +18,7 @@ EXPOSE 3000
 CMD ["node", "."]
 
 # Path: Nginx
-FROM nginx:latest
-EXPOSE 80
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/nginx/html
+#FROM nginx:latest
+#EXPOSE 80
+#COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+#COPY --from=build /app/build /usr/share/nginx/html
