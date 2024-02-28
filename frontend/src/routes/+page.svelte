@@ -19,7 +19,7 @@ const POST = async () => {
 		}
 	}
 
-	const response = await fetch('http://34.88.103.38:5021/todos', {
+	const response = await fetch('https://34.88.103.38:5021/todos', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -42,7 +42,7 @@ const POST = async () => {
 }
 
 const PUT = async (formdata: Form, done: boolean) => {
-	const response = await fetch(`http://34.88.103.38:5021/todos/${formdata.id}`, {
+	const response = await fetch(`https://34.88.103.38:5021/todos/${formdata.id}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -64,7 +64,7 @@ const PUT = async (formdata: Form, done: boolean) => {
 }
 
 const DELETE = async (formdata: Form) => {
-	const response = await fetch(`http://34.88.103.38:5021/todos/${formdata.id}`, {
+	const response = await fetch(`https://34.88.103.38:5021/todos/${formdata.id}`, {
 		method: 'DELETE',
 		headers: { 'Content-Type': 'application/json' }
 	})
