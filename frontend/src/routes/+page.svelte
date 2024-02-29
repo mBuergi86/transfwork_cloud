@@ -1,15 +1,9 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { Form } from '$lib/types/types';
 
 	export let data: PageData;
 
 	$: ({ todos } = data);
-
-	let formData: Form = {
-		title: '',
-		isComplete: false
-	};
 
 	let isVisible = false;
 	let done = false;
