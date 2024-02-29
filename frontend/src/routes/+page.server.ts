@@ -25,9 +25,7 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const id = data.get('id');
 		const title = data.get('title');
-		const isComplete = data.get('checked') === 'true' ? true : false;
-
-		console.log(id, title, isComplete);
+		const isComplete = data.get('checked') === 'true';
 
 		const res = await fetch(`http://backend:8080/todos/${id}`, {
 			method: 'PUT',
@@ -37,7 +35,7 @@ export const actions: Actions = {
 			body: JSON.stringify({
 				id: id,
 				title: title,
-				isComplete: !isComplete
+				isComplete: isComplete
 			})
 		});
 

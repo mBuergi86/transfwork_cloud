@@ -6,7 +6,7 @@ COPY ./package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
-RUN chmod -R 777 .
+#RUN chmod -R 777 .
 
 # Stage 2: Production
 FROM node:lts-alpine as production

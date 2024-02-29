@@ -12,9 +12,12 @@
 	};
 
 	let isVisible = false;
+	let done = false;
 
 	const visibleChange = (e: Event) => {
 		isVisible = !isVisible;
+
+		done = (e.currentTarget as HTMLInputElement).checked;
 	};
 </script>
 
@@ -45,20 +48,23 @@
 		{:then todos}
 			{#each todos as { id, title, isComplete } (id)}
 				<div class="flex justify-around items-center gap-4 w-full pt-2 pb-2">
-					<div
-						class="flex justify-between items-center bg-white w-full h-6 p-4 rounded-sm shadow-gray-950 drop-shadow-2xl"
-					>
-						<form action="?/update" method="POST">
+					<form action="?/update" method="POST">
+						<div
+							class="flex justify-start items-center bg-white w-[450px] h-6 p-4 rounded-sm shadow-gray-950 drop-shadow-2xl"
+						>
 							<input type="hidden" name="id" value={id} />
 							<input
 								type="checkbox"
 								name="checked"
 								checked={isComplete}
+								value={done}
 								on:change={visibleChange}
 							/>
 							<input type="text" name="title" id="title_input" value={title} class="hidden" />
 							<label for="title_input" class="bg-white w-full px-4">{title}</label>
-							{#if isVisible}
+						</div>
+						{#if isVisible}
+							<div>
 								<button
 									class="focus:outline-none active:scale-50 transition-all duration-150"
 									value={id}
@@ -77,28 +83,30 @@
 										>
 									</div>
 								</button>
-							{/if}
-						</form>
-					</div>
-					<form action="?/delete" method="POST">
-						<input type="hidden" name="id" value={id} />
-						<button
-							class="focus:outline-none active:scale-50 transition-all duration-150"
-							value={id}
-						>
-							<div
-								class="bg-red-500 rounded-full w-10 h-10 flex items-center justify-center fill-current text-white"
-							>
-								<svg
-									class="fill-current text-white w-6 h-6"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 -960 960 960"
-									><path
-										d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
-									/></svg
-								>
 							</div>
-						</button>
+						{/if}
+					</form>
+					<form action="?/delete" method="POST">
+						<div>
+							<input type="hidden" name="id" value={id} />
+							<button
+								class="focus:outline-none active:scale-50 transition-all duration-150"
+								value={id}
+							>
+								<div
+									class="bg-red-500 rounded-full w-10 h-10 flex items-center justify-center fill-current text-white"
+								>
+									<svg
+										class="fill-current text-white w-6 h-6"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 -960 960 960"
+										><path
+											d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+										/></svg
+									>
+								</div>
+							</button>
+						</div>
 					</form>
 				</div>
 			{/each}
