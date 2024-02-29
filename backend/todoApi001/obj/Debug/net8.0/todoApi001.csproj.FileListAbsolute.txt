@@ -38,3 +38,4 @@ C:\Users\marku\OneDrive\Dokumente\Programmierung\Svelte\project-teko\0_nbs_TA\mm
 C:\Users\marku\OneDrive\Dokumente\Programmierung\Svelte\project-teko\0_nbs_TA\mmnginx\backend\todoApi001\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
 C:\Users\marku\OneDrive\Dokumente\Programmierung\Svelte\project-teko\0_nbs_TA\mmnginx\backend\todoApi001\obj\Debug\net8.0\todoApi001.csproj.AssemblyReference.cache
 C:\Users\marku\OneDrive\Dokumente\Programmierung\Svelte\project-teko\0_nbs_TA\mmnginx\backend\todoApi001\obj\Debug\net8.0\todoApi001.csproj.CopyComplete
+C:\Users\marku\OneDrive\Dokumente\Programmierung\Svelte\project-teko\0_nbs_TA\mmnginx\backend\todoApi001\obj\Debug\net8.0\todoApi001.sourcelink.json

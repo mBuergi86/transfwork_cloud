@@ -14,7 +14,10 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$db: './src/db',
-		}
+		},
+		csrf: {
+			checkOrigin: false,
+		},
 	}
 };
 
