@@ -43,42 +43,44 @@
 			{#each todos as { id, title, isComplete } (id)}
 				<div class="flex justify-around items-center gap-4 w-full pt-2 pb-2">
 					<form action="?/update" method="POST">
-						<div
-							class="flex justify-start items-center bg-white w-[450px] h-6 p-4 rounded-sm shadow-gray-950 drop-shadow-2xl"
-						>
-							<input type="hidden" name="id" value={id} />
-							<input
-								type="checkbox"
-								name="checked"
-								checked={isComplete}
-								value={done}
-								on:change={visibleChange}
-							/>
-							<input type="text" name="title" id="title_input" value={title} class="hidden" />
-							<label for="title_input" class="bg-white w-full px-4">{title}</label>
-						</div>
-						{#if isVisible}
-							<div>
-								<button
-									class="focus:outline-none active:scale-50 transition-all duration-150"
-									value={id}
-								>
-									<div
-										class="bg-green-500 rounded-full w-10 h-10 flex items-center justify-center fill-current text-white"
-									>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											height="24"
-											viewBox="0 -960 960 960"
-											width="24"
-											><path
-												d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
-											/></svg
-										>
-									</div>
-								</button>
+						<div class="grid grid-cols-2">
+							<div
+								class="flex justify-start items-center bg-white w-[450px] h-6 p-4 rounded-sm shadow-gray-950 drop-shadow-2xl"
+							>
+								<input type="hidden" name="id" value={id} />
+								<input
+									type="checkbox"
+									name="checked"
+									checked={isComplete}
+									value={done}
+									on:change={visibleChange}
+								/>
+								<input type="text" name="title" id="title_input" value={title} class="hidden" />
+								<label for="title_input" class="bg-white w-full px-4">{title}</label>
 							</div>
-						{/if}
+							{#if isVisible}
+								<div>
+									<button
+										class="focus:outline-none active:scale-50 transition-all duration-150"
+										value={id}
+									>
+										<div
+											class="bg-green-500 rounded-full w-10 h-10 flex items-center justify-center fill-current text-white"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												height="24"
+												viewBox="0 -960 960 960"
+												width="24"
+												><path
+													d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
+												/></svg
+											>
+										</div>
+									</button>
+								</div>
+							{/if}
+						</div>
 					</form>
 					<form action="?/delete" method="POST">
 						<div>
