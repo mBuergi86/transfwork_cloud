@@ -7,9 +7,30 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'todo_app_Jenkins'
             }
         }
-        stage('Build NPM') { 
+        stage('Build') {
+            steps {
+                script {
+                    docker.build('todo_app', '--build-arg BUILD_CONFIGURATION=Release -f Dockerfile .')
+                }
+            }
             steps {
                 sh 'npm install' 
+            }
+            steps {
+                script {
+                    // Führen Sie den dotnet build-Befehl aus
+                    sh 'dotnet build -c Release -o ./bin ./todoApi001.csproj'
+                }
+            }
+        }
+        stage('Publish') {
+            steps {
+                // Docker Push
+                script {
+                    docker.withRegistry('https://your-docker-registry-url', 'docker-credentials-id') {
+                        docker.image('my-dotnet-app').push('latest')
+                    }
+                }
             }
         }
     }
