@@ -16,7 +16,10 @@ pipeline {
         }
         stage('Build npm') {
             steps {
-                sh 'npm run build' 
+                script {
+                    sh 'npm install'
+                    sh 'npm run build' 
+                }
             }
         }
         stage('Build dotnet') {
