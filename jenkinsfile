@@ -4,57 +4,33 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'your-credentials-id'
+                git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'todo_app_Jenkins'
             }
         }
-
-        stage('Build & Restore NuGet Packages') {
+        stage('Build NPM') { 
             steps {
-                tool name: 'dotnet', type: 'dotnet'
-                withEnv(['PATH+DOTNET=${tool 'dotnet'}/bin']) {
-                    sh 'dotnet build --configuration Release'
-                    sh 'dotnet restore'
-                }
-            }
-        }
-
-        stage('Run Unit Tests') {
-            steps {
-                sh 'dotnet test' // Use the recommended test command for your test framework
-            }
-        }
-
-        stage('Run Integration Tests') {
-            // Include steps for your integration tests if applicable
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                // Use the appropriate SonarQube plugin based on your setup
-                // Configure credentials and server details as needed
-                // You need to have the SonarQube Scanner installed on your Jenkins agent
-                withSonarQubeEnv('SonarQube') {
-                    sh 'dotnet sonarscanner begin /k:"your-project-key" /d:sonar.host.url="https://your-sonarqube-server" /d:sonar.login="your-sonarqube-token"'
-                    sh 'dotnet build'
-                    sh 'dotnet sonarscanner end /d:sonar.login="your-sonarqube-token"'
-                }
-            }
-        }
-
-        stage('Deploy to Production') {
-            steps {
-                // Define deployment steps based on your environment (e.g., AWS, Azure, on-premises)
-                // Use appropriate tools and scripts like `dotnet publish`, `ssh`, or cloud-specific tooling
+                sh 'npm install' 
             }
         }
     }
 
     post {
         success {
-            // Send notifications or perform other post-success tasks
+            // Beispiel: Benachrichtigung senden und Protokolle sammeln für einen erfolgreichen asp.net Core und Node.js Build
+            echo 'Der Build für ASP.NET Core und Node.js war erfolgreich.'
+            // Weitere Aktionen wie das Versenden von E-Mails, das Hochladen von Artefakten, usw.
+            // Sie könnten auch einen Erfolgscode setzen, z.B. für eine spätere Verarbeitung
+            catchError {
+                currentBuild.result = 'SUCCESS_WITH_ERRORS'
+            }
         }
         failure {
             // Send notifications, collect logs, or perform other post-failure tasks
+            // Hier könnten Sie beispielsweise Benachrichtigungen senden, Protokolle sammeln usw.
+            // Sie könnten auch einen spezifischen Fehlercode setzen
+            catchError {
+                currentBuild.result = 'FAILURE_WITH_ERRORS'
+            }
         }
     }
 }
