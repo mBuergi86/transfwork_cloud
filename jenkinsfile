@@ -13,24 +13,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            // Beispiel: Benachrichtigung senden und Protokolle sammeln für einen erfolgreichen asp.net Core und Node.js Build
-            echo 'Der Build für ASP.NET Core und Node.js war erfolgreich.'
-            // Weitere Aktionen wie das Versenden von E-Mails, das Hochladen von Artefakten, usw.
-            // Sie könnten auch einen Erfolgscode setzen, z.B. für eine spätere Verarbeitung
-            catchError {
-                currentBuild.result = 'SUCCESS_WITH_ERRORS'
-            }
-        }
-        failure {
-            // Send notifications, collect logs, or perform other post-failure tasks
-            // Hier könnten Sie beispielsweise Benachrichtigungen senden, Protokolle sammeln usw.
-            // Sie könnten auch einen spezifischen Fehlercode setzen
-            catchError {
-                currentBuild.result = 'FAILURE_WITH_ERRORS'
-            }
-        }
-    }
 }
