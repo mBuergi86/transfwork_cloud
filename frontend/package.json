@@ -36,6 +36,8 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-node": "^4.0.1",
-		"mongodb": "^6.3.0"
+		"mongodb": "^6.3.0",
+		"zod": "^3.22.4",
+		"zod-form-data": "^2.0.2"
 	}
 }
