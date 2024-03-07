@@ -4,57 +4,48 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'your-credentials-id'
+                git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'todo_app_Jenkins'
             }
         }
-
-        stage('Build & Restore NuGet Packages') {
+        stage('Build docker') {
             steps {
-                tool name: 'dotnet', type: 'dotnet'
-                withEnv(['PATH+DOTNET=${tool 'dotnet'}/bin']) {
-                    sh 'dotnet build --configuration Release'
-                    sh 'dotnet restore'
+                script {
+                    docker.build('todo_app', '--build-arg BUILD_CONFIGURATION=Release -f Dockerfile .')
                 }
             }
         }
-
-        stage('Run Unit Tests') {
+        stage('Build npm') {
             steps {
-                sh 'dotnet test' // Use the recommended test command for your test framework
-            }
-        }
-
-        stage('Run Integration Tests') {
-            // Include steps for your integration tests if applicable
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                // Use the appropriate SonarQube plugin based on your setup
-                // Configure credentials and server details as needed
-                // You need to have the SonarQube Scanner installed on your Jenkins agent
-                withSonarQubeEnv('SonarQube') {
-                    sh 'dotnet sonarscanner begin /k:"your-project-key" /d:sonar.host.url="https://your-sonarqube-server" /d:sonar.login="your-sonarqube-token"'
-                    sh 'dotnet build'
-                    sh 'dotnet sonarscanner end /d:sonar.login="your-sonarqube-token"'
+                script {
+                    sh 'npm install'
+                    sh 'npm run build' 
                 }
             }
         }
-
-        stage('Deploy to Production') {
+        stage('Build dotnet') {
             steps {
-                // Define deployment steps based on your environment (e.g., AWS, Azure, on-premises)
-                // Use appropriate tools and scripts like `dotnet publish`, `ssh`, or cloud-specific tooling
+                script {
+                    // Führen Sie den dotnet build-Befehl aus
+                    sh 'dotnet build -c Release -o ./bin ./todoApi001.csproj'
+                }
             }
         }
-    }
-
-    post {
-        success {
-            // Send notifications or perform other post-success tasks
+        stage('Test') {
+            steps {
+                script {
+                    echo 'Hello Test'
+                }
+            }
         }
-        failure {
-            // Send notifications, collect logs, or perform other post-failure tasks
+        stage('Publish') {
+            steps {
+                // Docker Push
+                script {
+                    docker.withRegistry('https://your-docker-registry-url', 'docker-credentials-id') {
+                        docker.image('my-dotnet-app').push('latest')
+                    }
+                }
+            }
         }
     }
 }
