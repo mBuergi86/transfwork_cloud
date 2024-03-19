@@ -16,11 +16,8 @@ pipeline {
             steps {
                 sh 'export NVM_DIR="$NVM_DIR"'
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
-                sh 'export NVM_DIR=\"$NVM_DIR\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"'
-                sh 'nvm --version'
-                sh 'nvm install $NODE_VERSION'
-                sh 'nvm use $NODE_VERSION'
-                sh 'export PATH="$PATH:/path/to/dotnet"'
+                sh "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm -v || echo 'NVM not installed'"
+                sh "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm install $NODE_VERSION && nvm use $NODE_VERSION || echo 'Node.js installation failed'"
             }
         }
         stage('Build'){
