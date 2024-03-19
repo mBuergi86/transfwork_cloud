@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         NODE_VERSION = '21.1.0'
-        NVM_DIR = '/absolute/path/to/nvm'
+        NVM_DIR = '/var/lib/jenkins/.nvm'
     }
 
     stages {
