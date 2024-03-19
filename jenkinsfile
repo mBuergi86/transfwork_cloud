@@ -1,10 +1,25 @@
 pipeline {
     agent any
 
+    environment {
+        NODE_VERSION = '21.1.0'
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
                 git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'todo_app_Jenkins'
+            }
+        }
+        stage('Setup Environment') {
+            steps {
+                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
+                sh 'export NVM_DIR="$HOME/.nvm"'
+                sh '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+                sh '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+                sh 'nvm install $NODE_VERSION'
+                sh 'nvm use $NODE_VERSION'
+                sh 'export PATH="$PATH:/path/to/dotnet"'
             }
         }
         stage('Build'){
