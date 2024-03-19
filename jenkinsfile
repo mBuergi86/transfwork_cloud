@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         NODE_VERSION = '21.1.0'
-        NVM_DIR = '/var/lib/jenkins/.nvm'
+        NVM_DIR = '/home/markus.buergi1986/.nvm'
     }
 
     stages {
@@ -14,9 +14,11 @@ pipeline {
         }
         stage('Setup Environment') {
             steps {
+                sh 'export NVM_DIR="$NVM_DIR"'
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
                 sh '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
                 sh '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"'
+                sh 'nvm --version'
                 sh 'nvm install $NODE_VERSION'
                 sh 'nvm use $NODE_VERSION'
                 sh 'export PATH="$PATH:/path/to/dotnet"'
