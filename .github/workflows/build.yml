@@ -1,0 +1,68 @@
+name: Build Frontend from Sveltekit and Backend from ASP.NET Core 8.0
+
+on:
+  push:
+      branches:
+        - 'master'
+jobs:
+  build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Use Node.js 21.x
+          uses: actions/setup-node@v4
+          with:
+            node-version: 21.x
+        - name: Install Dependencies
+          run: npm install
+        - name: Build
+          run: npm run build
+        - name: Archive Production Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: production
+            path: build
+        - name: Use .NET Core SDK 8.0.102
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: 8.0.x
+        - name: Restore NuGet Packages
+          run: dotnet restore
+        - name: Build
+          run: dotnet build
+        - name: Test
+          run: dotnet test
+        - name: Publish
+          run: dotnet publish -c Release -o publish
+        - name: Archive Publish Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: publish
+            path: publish
+  # deploy:
+  #     runs-on: ubuntu-latest
+  #     needs: build
+  #     steps:
+  #       - name: Download Production Artifact
+  #         uses: actions/download-artifact@v4
+  #         with:
+  #           name: production
+  #           path: build
+  #       - name: Download Publish Artifact
+  #         uses: actions/download-artifact@v4
+  #         with:
+  #           name: publish
+  #           path: publish
+  #       - name: Deploy to Google Cloud App Service
+  #         uses: google-github-actions/deploy-appengine@v2.1.0
+  #         with:
+  #           app-name: 'my-app'
+  #           slot-name: 'production'
+  #           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+  #           package: publish
+  #           enable-cms: false
+  #           enable-msdeploy: false
+  #           enable-war: false
+  #           enable-zipdeploy: true
+  #           zip-file: build    
