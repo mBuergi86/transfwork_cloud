@@ -11,12 +11,16 @@ pipeline {
             parallel {
                 stage('Build Frontend') {
                     steps {
-                        sh 'cd frontend && npm install && npm run build'
+                        dir('frontend') {
+                            sh 'npm install && npm run build'
+                        }
                     }
                 }
                 stage('Build Backend') {
                     steps {
-                        sh 'cd backend/todoApi001 && dotnet build -c Release'
+                        dir('backend/todoApi001') {
+                            sh 'dotnet build -c Release'
+                        }
                     }
                 }
             }
