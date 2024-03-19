@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	create: async ({ request }) => {
@@ -18,7 +18,7 @@ export const actions: Actions = {
 		if (!res.ok) {
 			return fail(401, { message: 'Failed to create todo' });
 		}
-		return { success: true };
+		throw redirect(303, '/todos');
 	},
 
 	update: async ({ request }) => {
@@ -42,7 +42,7 @@ export const actions: Actions = {
 		if (!res.ok) {
 			return fail(401, { message: 'Failed to update todo' });
 		}
-		return { success: true };
+		throw redirect(303, '/todos');
 	},
 
 	delete: async ({ request }) => {
@@ -56,7 +56,7 @@ export const actions: Actions = {
 		if (!res.ok) {
 			return fail(401, { message: 'Failed to delete todo' });
 		}
-		return { success: true };
+		throw redirect(303, '/todos');
 	}
 } satisfies Actions;
 
