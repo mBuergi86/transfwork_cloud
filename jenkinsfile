@@ -18,7 +18,6 @@ pipeline {
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
                 sh '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
                 sh '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"'
-                sh 'nvm --version'
                 sh 'nvm install $NODE_VERSION'
                 sh 'nvm use $NODE_VERSION'
                 sh 'export PATH="$PATH:/path/to/dotnet"'
