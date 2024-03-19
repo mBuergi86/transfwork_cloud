@@ -1,9 +1,6 @@
 pipeline {
-    agent any
-
-    environment {
-        NODE_VERSION = '21.1.0'
-        NVM_DIR = '/home/markus.buergi1986/.nvm'
+    agent {
+        label 'docker'
     }
 
     stages {
@@ -12,31 +9,13 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'todo_app_Jenkins'
             }
         }
-        stage('Setup Environment') {
-            steps {
-                sh 'export NVM_DIR="$NVM_DIR"'
-                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
-                sh "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm -v || echo 'NVM not installed'"
-                sh "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm install $NODE_VERSION && nvm use $NODE_VERSION || echo 'Node.js installation failed'"
-            }
-        }
         stage('Build'){
-            parallel {
-                stage('Build Frontend') {
-                    steps {
-                        dir('frontend') {
-                            sh 'npm install && npm run build'
-                        }
-                    }
-                }
-                stage('Build Backend') {
-                    steps {
-                        dir('backend/todoApi001') {
-                            sh 'dotnet build -c Release'
-                        }
-                    }
-                }
-            }
+            steps {
+                sh 'docker-compose up --build -d'
+
+                sh 'docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" frontend'
+                sh 'docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" backend'
+            }       
         }
     }
 }
