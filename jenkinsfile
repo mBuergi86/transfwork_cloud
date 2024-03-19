@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'docker'
+        label '10.166.0.2'
     }
 
     stages {
