@@ -14,8 +14,6 @@ jobs:
           uses: actions/setup-node@v4
           with:
             node-version: 21.x
-        - name: Install Dependencies
-          run: npm install
         - name: Build
           run: npm run build
         - name: Archive Production Artifact
@@ -65,4 +63,8 @@ jobs:
   #           enable-msdeploy: false
   #           enable-war: false
   #           enable-zipdeploy: true
+<<<<<<< HEAD
   #           zip-file: build    
+=======
+  #           zip-file: build    
+>>>>>>> 39e998972bcde4c64c113eafe0e066e51894edeb
