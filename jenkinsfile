@@ -4,6 +4,7 @@ pipeline {
     environment {
         NODE_VERSION = '21.1.0'
         NVM_DIR = '$HOME/.nvm'
+        HOME = '${env.WORKSPACE}'
     }
 
     stages {
@@ -14,6 +15,7 @@ pipeline {
         }
         stage('Setup Environment') {
             steps {
+                sh 'export HOME=$HOME'
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
                 sh 'export NVM_DIR="$NVM_DIR"'
                 sh '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
