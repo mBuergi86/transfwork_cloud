@@ -1,22 +1,22 @@
 pipeline {
     agent {
-        node('10.166.0.2'){
-
-            stages {
-                stage('Checkout Code') {
-                    steps {
-                        git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'todo_app_Jenkins'
-                    }
-                }
-                stage('Build'){
-                    steps {
-                        sh 'docker-compose up --build -d'
-
-                        sh 'docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" frontend'
-                        sh 'docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" backend'
-                    }       
-                }
+        node {
+            label '10.166.0.2'
+        }
+    }
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'master', url: 'https://github.com/mBuergi86/transfwork_cloud.git', credentialsId: 'todo_app_Jenkins'
             }
+        }
+        stage('Build'){
+            steps {
+                sh 'docker-compose up --build -d'
+
+                sh 'docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" frontend'
+                sh 'docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" backend'
+            }       
         }
     }
 }
