@@ -4,6 +4,9 @@ on:
   push:
       branches:
         - 'master'
+  pull_request:
+      branches:
+        - 'master'
 jobs:
   build:
       runs-on: ubuntu-latest
@@ -14,6 +17,14 @@ jobs:
           uses: actions/setup-node@v4
           with:
             node-version: 21.x
+<<<<<<< HEAD
+=======
+        - name: Change to Frontend directory
+          run: cd transfwork_cloud/frontend
+          shell: bash
+        - name: Install Dependencies
+          run: npm install
+>>>>>>> 741a7385894778ce5eaef4f358f9233284a729ad
         - name: Build
           run: npm run build
         - name: Archive Production Artifact
